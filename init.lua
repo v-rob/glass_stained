@@ -301,7 +301,7 @@ xpanes.register_pane("obsidian_pane", {
 minetest.register_node("glass_stained:pane_bar_top_pane_single", {
 	description = "Spiked Steel Railing Pane (Single)",
 	drawtype = "nodebox",
-	tiles = {"glass_stained_bar_fancy.png"},
+	tiles = {"blank.png", "blank.png", "glass_stained_bar_fancy.png"},
 	wield_image = "glass_stained_bar_fancy.png",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -309,7 +309,7 @@ minetest.register_node("glass_stained:pane_bar_top_pane_single", {
 	is_ground_content = false,
 	node_box = {
 		type = "fixed",
-		fixed = nodeboxes["single"],
+		fixed = thick_nodeboxes["single"],
 	},
 	selection_box = {
 		type = "fixed",
@@ -322,7 +322,7 @@ minetest.register_node("glass_stained:pane_bar_top_pane_single", {
 minetest.register_node("glass_stained:pane_bar_top_pane_offset", {
 	description = "Spiked Steel Railing Pane (Offset)",
 	drawtype = "nodebox",
-	tiles = {"glass_stained_bar_fancy.png"},
+	tiles = {"blank.png", "blank.png", "glass_stained_bar_fancy.png"},
 	wield_image = "glass_stained_bar_fancy.png",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -330,7 +330,7 @@ minetest.register_node("glass_stained:pane_bar_top_pane_offset", {
 	is_ground_content = false,
 	node_box = {
 		type = "fixed",
-		fixed = nodeboxes["offset"],
+		fixed = thick_nodeboxes["offset"],
 	},
 	selection_box = {
 		type = "fixed",
