@@ -68,11 +68,7 @@ local panes = {
 		"default_glass.png",
 		"glass_stained_edge.png",
 		default.node_sound_glass_defaults(),
-		{
-			{"xpanes:pane_flat", "xpanes:pane_flat"},
-			{"xpanes:pane_flat", "xpanes:pane_flat"}
-		},
-		"4"
+		"xpanes:pane_flat"
 	},
 	{
 		"obsidian_glass",
@@ -80,11 +76,7 @@ local panes = {
 		"default_obsidian_glass.png",
 		"xpanes_edge_obsidian.png",
 		default.node_sound_glass_defaults(),
-		{
-			{"xpanes:obsidian_pane_flat", "xpanes:obsidian_pane_flat"},
-			{"xpanes:obsidian_pane_flat", "xpanes:obsidian_pane_flat"}
-		},
-		"4"
+		"xpanes:obsidian_pane_flat"
 	},
 	{
 		"bar",
@@ -92,11 +84,7 @@ local panes = {
 		"xpanes_bar.png",
 		"xpanes_bar_top.png",
 		default.node_sound_metal_defaults(),
-		{
-			{"xpanes:bar_flat", "xpanes:bar_flat"},
-			{"xpanes:bar_flat", "xpanes:bar_flat"}
-		},
-		"4"
+		"xpanes:bar_flat"
 	},
 }
 
@@ -245,7 +233,7 @@ for name, selection_box in pairs(selection_boxes) do
 		})
 		
 		if name == "noncuple" then
-			define_crafts("glass_stained:pane_"..pane[1], pane[6], pane[7])
+			define_crafts("glass_stained:pane_"..pane[1], {{pane[6]}}, "1")
 		end
 	end
 end
