@@ -66,13 +66,9 @@ local panes = {
 		"glass",
 		"Glass Pane",
 		"default_glass.png",
-		"glass_stained_edge.png",
+		"xpanes_edge.png",
 		default.node_sound_glass_defaults(),
-		{
-			{"xpanes:pane_flat", "xpanes:pane_flat"},
-			{"xpanes:pane_flat", "xpanes:pane_flat"}
-		},
-		"4"
+		"xpanes:pane_flat"
 	},
 	{
 		"obsidian_glass",
@@ -80,11 +76,7 @@ local panes = {
 		"default_obsidian_glass.png",
 		"xpanes_edge_obsidian.png",
 		default.node_sound_glass_defaults(),
-		{
-			{"xpanes:obsidian_pane_flat", "xpanes:obsidian_pane_flat"},
-			{"xpanes:obsidian_pane_flat", "xpanes:obsidian_pane_flat"}
-		},
-		"4"
+		"xpanes:obsidian_pane_flat"
 	},
 	{
 		"bar",
@@ -92,22 +84,18 @@ local panes = {
 		"xpanes_bar.png",
 		"xpanes_bar_top.png",
 		default.node_sound_metal_defaults(),
-		{
-			{"xpanes:bar_flat", "xpanes:bar_flat"},
-			{"xpanes:bar_flat", "xpanes:bar_flat"}
-		},
-		"4"
+		"xpanes:bar_flat"
 	},
 }
 
 local function define_crafts(pane, main_craft, main_output)
-	single_pane = pane.."_single"
-	
+	local single_pane = pane.."_single"
+
 	minetest.register_craft({
 		output = single_pane.." "..main_output,
 		recipe = main_craft,
 	})
-	
+
 	minetest.register_craft({
 		output = pane.."_double",
 		recipe = {
@@ -115,14 +103,14 @@ local function define_crafts(pane, main_craft, main_output)
 			{single_pane}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = single_pane.." 2",
 		recipe = {
 			{pane.."_double"}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = pane.."_triple",
 		recipe = {
@@ -130,14 +118,14 @@ local function define_crafts(pane, main_craft, main_output)
 			{single_pane, single_pane}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = single_pane.." 3",
 		recipe = {
 			{pane.."_triple"}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = pane.."_quadruple",
 		recipe = {
@@ -145,14 +133,14 @@ local function define_crafts(pane, main_craft, main_output)
 			{single_pane, single_pane}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = single_pane.." 4",
 		recipe = {
 			{pane.."_quadruple"}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = pane.."_noncuple",
 		recipe = {
@@ -161,21 +149,21 @@ local function define_crafts(pane, main_craft, main_output)
 			{single_pane, single_pane, single_pane}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = single_pane.." 9",
 		recipe = {
 			{pane.."_noncuple"}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = pane.."_offset",
 		recipe = {
 			{single_pane}
 		},
 	})
-	
+
 	minetest.register_craft({
 		output = single_pane,
 		recipe = {
@@ -204,10 +192,10 @@ for name, selection_box in pairs(selection_boxes) do
 				fixed = selection_box,
 			},
 			groups = {cracky = 3, oddly_breakable_by_hand = 3},
-			use_texture_alpha = true,
+			use_texture_alpha = "clip",
 			sounds = default.node_sound_glass_defaults()
 		})
-		
+
 		if name == "noncuple" then
 			define_crafts("glass_stained:glass_"..node, {
 				{"dye:"..crafting[node][1], "xpanes:pane_flat"},
@@ -215,19 +203,27 @@ for name, selection_box in pairs(selection_boxes) do
 				{"dye:"..crafting[node][3], "xpanes:pane_flat"}
 			}, "3")
 		end
-		
+
 		if node <= 12 then
 			minetest.register_alias("glass_stained:glass_number_"..alias[node], "glass_stained:glass_"..node.."single")
 			minetest.register_alias("glass_stained:glass_number_"..alias[node].."top", "glass_stained:glass_"..node.."double")
 		end
 	end
-	
+
 	for _, pane in ipairs(panes) do
 		minetest.register_node("glass_stained:pane_"..pane[1].."_"..name, {
 			description = pane[2].." ("..name:sub(1, 1):upper()..name:sub(2, -1)..")",
 			drawtype = "nodebox",
-			tiles = {pane[4], pane[4], pane[3]},
+			tiles = {
+				pane[4],
+				pane[4],
+				pane[4],
+				pane[4],
+				pane[3],
+				pane[3]
+			},
 			wield_image = pane[3],
+			use_texture_alpha = "clip",
 			paramtype = "light",
 			paramtype2 = "facedir",
 			sunlight_propagates = true,
@@ -243,9 +239,9 @@ for name, selection_box in pairs(selection_boxes) do
 			groups = {cracky = 3, oddly_breakable_by_hand = 3},
 			sounds = pane[5]
 		})
-		
+
 		if name == "noncuple" then
-			define_crafts("glass_stained:pane_"..pane[1], pane[6], pane[7])
+			define_crafts("glass_stained:pane_"..pane[1], {{pane[6]}}, "1")
 		end
 	end
 end
@@ -260,9 +256,10 @@ minetest.register_alias("glass_stained:steel_bars_fancy", "glass_stained:pane_ba
 
 xpanes.register_pane("bar_top", {
 	description = "Spiked Steel Railing",
-	textures = {"glass_stained_bar_fancy.png", "xpanes_pane_half.png", "default_glass_detail.png"},
+	textures = {"glass_stained_bar_fancy.png", "", "blank.png"},
 	inventory_image = "glass_stained_bar_fancy.png",
 	wield_image = "glass_stained_bar_fancy.png",
+	use_texture_alpha = "clip",
 	groups = {cracky = 2},
 	sounds = default.node_sound_metal_defaults(),
 	recipe = {
@@ -272,37 +269,12 @@ xpanes.register_pane("bar_top", {
 	}
 })
 
-xpanes.register_pane("pane", {
-	description = "Glass Pane",
-	textures = {"default_glass.png","xpanes_pane_half.png","glass_stained_edge.png"},
-	inventory_image = "default_glass.png",
-	wield_image = "default_glass.png",
-	sounds = default.node_sound_glass_defaults(),
-	groups = {snappy = 2, cracky = 3, oddly_breakable_by_hand = 3},
-	recipe = {
-		{"default:glass", "default:glass", "default:glass"},
-		{"default:glass", "default:glass", "default:glass"}
-	}
-})
-
-xpanes.register_pane("obsidian_pane", {
-	description = "Obsidian Glass Pane",
-	textures = {"default_obsidian_glass.png","xpanes_pane_half.png","xpanes_edge_obsidian.png"},
-	inventory_image = "default_obsidian_glass.png",
-	wield_image = "default_obsidian_glass.png",
-	sounds = default.node_sound_glass_defaults(),
-	groups = {snappy = 2, cracky = 3},
-	recipe = {
-		{"default:obsidian_glass", "default:obsidian_glass", "default:obsidian_glass"},
-		{"default:obsidian_glass", "default:obsidian_glass", "default:obsidian_glass"}
-	}
-})
-
 minetest.register_node("glass_stained:pane_bar_top_pane_single", {
 	description = "Spiked Steel Railing Pane (Single)",
 	drawtype = "nodebox",
 	tiles = {"blank.png", "blank.png", "glass_stained_bar_fancy.png"},
 	wield_image = "glass_stained_bar_fancy.png",
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -324,6 +296,7 @@ minetest.register_node("glass_stained:pane_bar_top_pane_offset", {
 	drawtype = "nodebox",
 	tiles = {"blank.png", "blank.png", "glass_stained_bar_fancy.png"},
 	wield_image = "glass_stained_bar_fancy.png",
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
