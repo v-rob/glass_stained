@@ -192,7 +192,7 @@ for name, selection_box in pairs(selection_boxes) do
 				fixed = selection_box,
 			},
 			groups = {cracky = 3, oddly_breakable_by_hand = 3},
-			use_texture_alpha = true,
+			use_texture_alpha = "clip",
 			sounds = default.node_sound_glass_defaults()
 		})
 
